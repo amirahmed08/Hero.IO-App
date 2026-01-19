@@ -1,0 +1,7 @@
+/* navbar.css */
+.navbar-container .active {
+  color: blueviolet;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 20px;
+}
