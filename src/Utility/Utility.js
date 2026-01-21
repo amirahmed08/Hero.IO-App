@@ -16,4 +16,11 @@ const addInstalledApp = (id) => {
   console.log(storedApp);
 };
 
-export { addInstalledApp, getInstalledApp};
+// hendleRemove
+ const removeInstalledApp = (id) => {
+  const storedApp = getInstalledApp()
+  const removingApp = storedApp.filter(appId=> appId !== id)
+  localStorage.setItem("AppsDetails", JSON.stringify(removingApp))
+}
+
+export { addInstalledApp, getInstalledApp, removeInstalledApp};

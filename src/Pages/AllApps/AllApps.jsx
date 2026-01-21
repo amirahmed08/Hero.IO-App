@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, Suspense } from 'react'
 import { useLoaderData } from 'react-router'
 import SingleAppList from '../../Component/SingleAppList/SingleAppList'
 import { CiSearch } from "react-icons/ci";
@@ -61,11 +61,34 @@ const AllApps = () => {
                )}
             </div>
          ) : (
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-8'>
-               {filteredData.map((singleApp) => (
+            <Suspense
+  fallback={
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div
+          key={i}
+          className="bg-white rounded-2xl shadow-md p-4 animate-pulse"
+        >
+          <div className="h-32 bg-gray-300 rounded-xl mb-4"></div>
+
+          <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+
+          <div className="flex justify-between mt-4">
+            <div className="h-4 w-16 bg-gray-300 rounded"></div>
+            <div className="h-4 w-12 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  }
+>
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-8'>
+                {filteredData.map((singleApp) => (
                   <SingleAppList key={singleApp.id} singleApp={singleApp} />
-               ))}
-            </div>
+                ))}
+              </div>
+            </Suspense>
          )}
       </div>
    )

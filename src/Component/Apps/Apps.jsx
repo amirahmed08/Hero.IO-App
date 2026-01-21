@@ -17,19 +17,37 @@ const Apps = ({data}) => {
         </p>
       </div>
       <div>
-        <Suspense fallback={
-          <div className='flex justify-center items-center py-12'>
-            <span className='text-lg text-gray-500 animate-pulse'>loading.....</span>
+          <Suspense
+  fallback={
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div
+          key={i}
+          className="bg-white rounded-2xl shadow-md p-4 animate-pulse"
+        >
+          <div className="h-32 bg-gray-300 rounded-xl mb-4"></div>
+
+          <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+
+          <div className="flex justify-between mt-4">
+            <div className="h-4 w-16 bg-gray-300 rounded"></div>
+            <div className="h-4 w-12 bg-gray-300 rounded"></div>
           </div>
-        }>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-            {
-              displayApps.map((singleApp) => (
-                <App key={singleApp.id} singleApp={singleApp} />
-              ))
-            }
-          </div>
-        </Suspense>
+        </div>
+      ))}
+    </div>
+  }
+>
+
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+              {
+                displayApps.map((singleApp) => (
+                  <App key={singleApp.id} singleApp={singleApp} />
+                ))
+              }
+            </div>
+          </Suspense>
         
         {/* Styled button - no functionality */}
         <div className='text-center mt-12'>
