@@ -9,7 +9,7 @@ const Navbar = () => {
   <>
     <li><NavLink className='hover:bg-base-300 rounded-md py-2 px-3 btn btn-ghost' to='/'>Home</NavLink></li>
     <li><NavLink className='hover:bg-base-300 rounded-md py-2 px-3 btn btn-ghost' to='/allApps'>Apps</NavLink></li>
-    <li><NavLink className='hover:bg-base-300 rounded-md py-2 px-3 btn btn-ghost' to='/readList'>Installation</NavLink></li>
+    <li><NavLink className='hover:bg-base-300 rounded-md py-2 px-3 btn btn-ghost' to='/installation'>Installation</NavLink></li>
   </>
   return (
  <div className="max-w-[1200px] mx-auto">

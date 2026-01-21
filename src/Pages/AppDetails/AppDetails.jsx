@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import starImg from '../../assets/icon-ratings.png'
 import downloadImg from '../../assets/icon-downloads.png'
 import likeImg from '../../assets/icon-review.png'
 import { useLoaderData, useParams } from 'react-router'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { addInstalledApp } from '../../Utility/Utility'
 
 const RatingsGraph = ({ ratings }) => {
     const total = ratings.reduce((sum, r) => sum + r.count, 0);
@@ -17,7 +18,7 @@ const RatingsGraph = ({ ratings }) => {
         <div className="w-full h-[320px] bg-slate-50 p-6 rounded-2xl shadow-inner">
             <h3 className="text-xl font-bold text-slate-900 mb-4">Ratings Breakdown</h3>
 
-            <ResponsiveContainer width="100%" height="100%">
+           <ResponsiveContainer width="100%" height={260}>  
                 <BarChart
                     layout="vertical"
                     data={formattedRatings}
@@ -26,7 +27,7 @@ const RatingsGraph = ({ ratings }) => {
                     <XAxis type="number" />
                     <YAxis dataKey="name" type="category" />
                     <Tooltip />
-                    <Bar dataKey="count" barSize={18} />
+                    <Bar dataKey="count" barSize={18} fill='#FF8811'  radius={[10, 10, 10, 10]} />
                 </BarChart>
             </ResponsiveContainer>
         </div>
@@ -34,7 +35,13 @@ const RatingsGraph = ({ ratings }) => {
 };
 
 const AppDetails = () => {
+    const [isInstalled, setIsInstalled]=useState(false)
     const { id } = useParams();
+    useEffect(() => {
+  const stored = JSON.parse(localStorage.getItem("AppDetails")) || [];
+  setIsInstalled(stored.includes(parseInt(id)));
+}, [id]);
+
     const data = useLoaderData();
     const singleAppData = data?.find(app => app.id === parseInt(id));
 
@@ -57,6 +64,12 @@ const AppDetails = () => {
             </div>
         );
     }
+   const handleInstalledApp = (appId) => {
+  addInstalledApp(parseInt(appId));
+
+  const stored = JSON.parse(localStorage.getItem("AppsDetails")) || [];
+  setIsInstalled(stored.includes(parseInt(appId)));
+};
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -118,9 +131,9 @@ const AppDetails = () => {
                             </div>
 
                             <div className="pt-4">
-                                <button className="group relative bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white font-bold px-10 py-5 rounded-2xl text-lg shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                                <button onClick={()=>handleInstalledApp(id)} className="group relative bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white font-bold px-10 py-5 rounded-2xl text-lg shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                                     <span className="relative z-10 flex items-center gap-3">
-                                        Install Now ({size} MB)
+                                        {isInstalled?"Uninstall":`Install Now (${size} MB)`}
                                         <span className="bg-white/20 w-2 h-2 rounded-full group-hover:w-8 group-hover:h-8 transition-all duration-500"></span>
                                     </span>
                                 </button>
