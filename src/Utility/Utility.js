@@ -1,26 +1,32 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const getInstalledApp = () => {
   const checkStoredApp = localStorage.getItem("AppsDetails");
-  return checkStoredApp ? JSON.parse(checkStoredApp) : [];
+  return checkStoredApp ? JSON.parse(checkStoredApp).map(Number) : [];
 };
 
 const addInstalledApp = (id) => {
   const storedApp = getInstalledApp();
+  const appId = Number(id);
 
-  if (storedApp.includes(id)) {
-    alert("App already Installed");
+  if (storedApp.includes(appId)) {
+    toast.info("App already installed");
     return;
   }
 
-  storedApp.push(id);
+  storedApp.push(appId);
   localStorage.setItem("AppsDetails", JSON.stringify(storedApp));
-  console.log(storedApp);
+
+  toast.success("App installed successfully 🎉");
 };
 
-// hendleRemove
- const removeInstalledApp = (id) => {
-  const storedApp = getInstalledApp()
-  const removingApp = storedApp.filter(appId=> appId !== id)
-  localStorage.setItem("AppsDetails", JSON.stringify(removingApp))
-}
+const removeInstalledApp = (id) => {
+  const storedApp = getInstalledApp();
+  const updated = storedApp.filter(appId => appId !== Number(id));
+  localStorage.setItem("AppsDetails", JSON.stringify(updated));
 
-export { addInstalledApp, getInstalledApp, removeInstalledApp};
+  toast.success("App uninstalled successfully 🗑️");
+};
+
+export { addInstalledApp, getInstalledApp, removeInstalledApp };

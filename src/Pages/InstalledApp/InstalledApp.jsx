@@ -1,11 +1,14 @@
 import React from 'react'
 import starImg from '../../assets/icon-ratings.png'
 import downloadImg from '../../assets/icon-downloads.png'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InstalledApp = ({b, removeInstalledApp}) => {
  const handleRemove = () => {
   if (removeInstalledApp) {
     removeInstalledApp(b.id);
+    toast.success("App uninstalled successfully 🗑️");  
   }
 };
 
